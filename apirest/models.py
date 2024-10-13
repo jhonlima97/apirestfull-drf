@@ -1,4 +1,3 @@
-from django.core.exceptions import ValidationError
 from django.db import models
 
 # Create your models here.
@@ -11,12 +10,6 @@ class Developer(models.Model):
         unique_together=('fullname', 'nickname')
     def __str__(self):
         return self.nickname
-    def clean(self):
-        super().clean()
-        if not self.fullname.isalpha():
-            raise ValidationError('The fullname can only contain letters.')
-        if not self.fullname or not self.nickname or not self.age:
-            raise ValidationError('All fields are required.')
 
 class Project(models.Model):
     name        = models.CharField(max_length=100)
@@ -28,10 +21,3 @@ class Project(models.Model):
         unique_together=('name',)    
     def __str__(self):
         return self.name
-    def clean(self):
-        super().clean()
-        if not self.name.isalpha():
-            raise ValidationError('The name can only contain letters.')
-        if not self.name or not self.description or not self.start_date or not self.developer:
-            raise ValidationError('All fields are required.')
-    
